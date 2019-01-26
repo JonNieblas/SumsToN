@@ -1,7 +1,6 @@
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Scanner;
-import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 public class SumsToN {
@@ -10,19 +9,20 @@ public class SumsToN {
     private static ArrayList<String> printed = new ArrayList<>();
 
     public static void GenerateSums(int n, String s){
+        String output = "";
+
         // Calculate the sum of all nums in the string
         // sum = 0 if string is empty
-        int sum = s.equals("") ? 0 : Pattern.compile("")
-                                     .splitAsStream(s)
-                                     .mapToInt(Integer::parseInt)
+        int sum = s.equals("") ? 0 : Arrays.stream(s.split(" \\+ "))
+                                     .mapToInt(i -> Integer.parseInt(i))
                                      .sum();
         if(sum == n){
             // Sort the string of ints, placing + ops in the process
-            String sortedS = Arrays.stream(s.split(""))
-                            .mapToInt(i -> Integer.parseInt(i))
-                            .sorted()
-                            .mapToObj(Integer::toString)
-                            .collect(Collectors.joining(" + "));
+            String sortedS = Arrays.stream(s.split(" \\+ "))
+                             .mapToInt(i -> Integer.parseInt(i))
+                             .sorted()
+                             .mapToObj(Integer::toString)
+                             .collect(Collectors.joining(" + "));
             // Print the sorted num only if it hasn't been printed already.
             if(!printed.contains(sortedS)) {
                 printed.add(sortedS);
@@ -33,7 +33,9 @@ public class SumsToN {
             // Recursively call GenerateSums() until it finds a fit
             for(int num : numbers){
                 if((sum + num <= n) && (num != 0))
-                    GenerateSums(n, s + num);
+                    // If first num of string s, don't print a + op
+                    output = s.equals("") ? (s + num) : (s + " + " + num);
+                    GenerateSums(n, output);
             }
         }
     }
@@ -45,8 +47,6 @@ public class SumsToN {
         numbers = new int[n];
         // generate list of viable numbers for addition into n
         for(int i = 0; i < n; i++) {
-            if (i == 9)
-                break;
             numbers[i] = i + 1;
         }
 
