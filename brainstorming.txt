@@ -24,5 +24,6 @@ With n = 8, the print should look like:
 4+4
 8
 
-Todo: Change the iteration so that it can add double digit numbers
+Todo: Implement some kind of pruning so that it stops after [(n/2) + (n/2)]
+or if odd: [(n/2) + ((n/2)+1)]
 

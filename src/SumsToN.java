@@ -41,12 +41,28 @@ public class SumsToN {
     }
 
     public static void main(String[] args) {
-        System.out.print("Enter n: ");
-        int n = new Scanner( System.in ).nextInt();
+        int n = 0;
+        Scanner scan = new Scanner(System.in);
+
+        while(n == 0){
+            System.out.print("Enter n: ");
+            try{
+                n = scan.nextInt();
+                if(n > 0){
+                    break;
+                } else{
+                    System.out.println("n must be positive!");
+                    n = 0;
+                }
+            } catch(Exception InputMismatchException){
+                System.out.println("n must be an integer!");
+                scan.nextLine();
+            }
+        }
 
         numbers = new int[n];
         // generate list of viable numbers for addition into n
-        for(int i = 0; i < n; i++) {
+        for (int i = 0; i < n; i++) {
             numbers[i] = i + 1;
         }
 
